@@ -2,7 +2,8 @@
 
 @section('css')
     <!-- Table css -->
-    <link href="{{ URL::asset('plugins/RWD-Table-Patterns/dist/css/rwd-table.min.css') }}" rel="stylesheet" type="text/css" media="screen">
+    <link href="{{ URL::asset('plugins/RWD-Table-Patterns/dist/css/rwd-table.min.css') }}" rel="stylesheet" type="text/css"
+        media="screen">
 @endsection
 
 @section('breadcrumb')
@@ -21,7 +22,7 @@
 @endsection
 
 @section('content')
-@include('includes.flash')
+    @include('includes.flash')
 
     <div class="row">
         <div class="col-12">
@@ -30,26 +31,37 @@
 
                     <div class="table-rep-plugin">
                         <div class="table-responsive mb-0" data-pattern="priority-columns">
-                            <table id="datatable-buttons" class="table table-hover table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                                        
-                            <thead class="thead-dark">
-							<!-- Log on to codeastro.com for more projects! -->
+                            <table id="datatable-buttons"
+                                class="table table-hover table-striped table-bordered dt-responsive nowrap"
+                                style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+
+                                <thead class="thead-dark">
+                                    <!-- Log on to codeastro.com for more projects! -->
                                     <tr>
                                         <th data-priority="1">Date</th>
                                         <th data-priority="2">EmpID</th>
                                         <th data-priority="3">Name</th>
-                                        <th data-priority="4">Attendance</th>
+                                        <th data-priority="4">Time In</th>
 
-                                        <th data-priority="6">Time In</th>
+                                        {{-- <th data-priority="6">Time In</th> --}}
                                         <th data-priority="7">Time Out</th>
 
 
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <h1>dfdyt</h1>
+                                    <?php
+                                    // Set the correct timezone for your server
+                                    date_default_timezone_set('Asia/Kolkata'); // Replace 'Your/Timezone' with the appropriate timezone, e.g., 'Asia/Kolkata'
+                                    
+                                    // Get the server's current time
+                                    $currentTime = date('H:i');
+                                    
+                                    echo $currentTime;
+                                    ?>
 
                                     @foreach ($attendances as $attendance)
-
                                         <tr>
                                             <td>{{ $attendance->attendance_date }}</td>
                                             <td>{{ $attendance->emp_id }}</td>
@@ -62,10 +74,17 @@
                                                 @endif
                                             </td>
 
-                                            <td>{{ $attendance->employee->schedules->first()->time_in }} </td>
-                                            <td>{{ $attendance->employee->schedules->first()->time_out }}</td>
+                                            {{-- <td>{{ $attendance->employee->schedules->first()->time_in }} </td> --}}
+                                            date_default_timezone_set('Asia/Kolkata');
+                                            <td>{{ $attendance->Time_out }}
+                                                @if ($attendance->status == 1)
+                                                    <span class="badge badge-success badge-pill float-right">On Time</span>
+                                                @else
+                                                    <span class="badge badge-danger badge-pill float-right">Late</span>
+                                                @endif
+                                            </td>
+                                            {{-- <td>{{ $attendance->employee->schedules->first()->time_out }}</td> --}}
                                         </tr>
-
                                     @endforeach
 
 
@@ -77,15 +96,13 @@
             </div><!-- Log on to codeastro.com for more projects! -->
         </div> <!-- end col -->
     </div> <!-- end row -->
-
 @endsection
 
 
 @section('script')
     <!-- Responsive-table-->
-	<!-- Log on to codeastro.com for more projects! -->
+    <!-- Log on to codeastro.com for more projects! -->
     <script src="{{ URL::asset('plugins/RWD-Table-Patterns/dist/js/rwd-table.min.js') }}"></script>
- 
 @endsection
 
 @section('script')
